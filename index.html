@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <h1>Todo List</h1>
+    <input id="input-box" type="text">
+    <button onclick="addTodo()">Add Todo</button>
+
+    <div id="todo-div"></div>
+
+    <script>
+        let ctr = 1; // Counter should be outside to keep track of unique IDs
+
+        function editTodo(ctr) {
+            const editEl = document.getElementById(`todoList-${ctr}`);
+            const newTodo = prompt("Edit Your Todo:", editEl.textContent);
+            if (newTodo !== null && newTodo.trim() !== "") {
+                editEl.textContent = newTodo.trim();
+            }
+        }
+
+        function deleteTodo(ctr) {
+            const element = document.getElementById(`todo-${ctr}`);
+            if (element) {
+                element.remove();
+            }
+        }
+
+        function addTodo() {  
+            const inputBox = document.getElementById("input-box");
+            const inputValue = inputBox.value.trim();
+
+            if (inputValue === "") {
+                alert("Write your todo.");
+                return;
+            }
+
+            // Creating a div for each todo item
+            const divEl = document.createElement("div");
+            divEl.setAttribute("id", `todo-${ctr}`);
+
+            // Creating an h1 tag for the todo text
+            const h1Tag = document.createElement("h1");
+            h1Tag.setAttribute("id", `todoList-${ctr}`);
+            h1Tag.textContent = inputValue;
+
+            // Creating a delete button
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.setAttribute("onclick", `deleteTodo(${ctr})`);
+
+            // Creating an Edit button
+            const editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.setAttribute("onclick", `editTodo(${ctr})`);
+
+            // Appending elements to the div
+            divEl.appendChild(h1Tag);
+            divEl.appendChild(editButton);
+            divEl.appendChild(deleteButton);
+
+            // Appending the div to the main container
+            document.getElementById("todo-div").appendChild(divEl);
+
+            // Clear input box
+            inputBox.value = "";
+
+            // Increment counter for the next todo
+            ctr++;
+        }
+    </script>
+</body>
+
+</html>
